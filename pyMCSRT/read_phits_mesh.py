@@ -62,28 +62,22 @@ class read_phits_mesh:
                         dump_n = self.ny
                     for dump_z in range(dump_n):
                         for l_p_id in range(len(self.part)):
-                            dump_y = 0
                             dump_n2 = self.nz
                             if self.axis == "xy":
                                 dump_n2 = self.ny
                             #print(dump_n2)
-                            for i in range(dump_n2):
-                                #print(dump_y)
-                                dump_n3 = self.ny
-                                if self.axis == "xy":
-                                    dump_n3 = self.nx
-                                dump = next(f).split()
-                                for j in range((dump_n3-10)//10):
-                                    #print(dump)
-                                    dump += next(f).split()
-                                #print(dump)
-                                if self.axis == "xy":
-                                    self.result[l_p_id,:,dump_y,dump_z,0] = dump
-                                if self.axis == "xz":
-                                    self.result[l_p_id,:,dump_z,dump_y,0] = dump
-                                if self.axis == "yz":
-                                    self.result[l_p_id,dump_z,:,dump_y,0] = dump
-                                dump_y+=1
+                            dump_n3 = self.ny
+                            if self.axis == "xy":
+                                dump_n3 = self.nx
+                            dump = []
+                            for i in range((dump_n2*dump_n3//10)+1):
+                                dump += next(f).split()
+                            if self.axis == "xy":
+                                self.result[l_p_id,:,:,dump_z,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
+                            if self.axis == "xz":
+                                self.result[l_p_id,:,dump_z,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
+                            if self.axis == "yz":
+                                self.result[l_p_id,dump_z,:,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
                             while True:
                                 dump = next(f)
                                 if "bitrseed" in dump:
