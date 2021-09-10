@@ -73,11 +73,11 @@ class read_phits_mesh:
                             for i in range((dump_n2*dump_n3//10)+1):
                                 dump += next(f).split()
                             if self.axis == "xy":
-                                self.result[l_p_id,:,:,dump_z,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
+                                self.result[l_p_id,:,:,dump_z,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3),k=3)
                             if self.axis == "xz":
-                                self.result[l_p_id,:,dump_z,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
+                                self.result[l_p_id,:,dump_z,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3),k=3)
                             if self.axis == "yz":
-                                self.result[l_p_id,dump_z,:,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3))
+                                self.result[l_p_id,dump_z,:,:,0] = np.rot90(np.array(dump).reshape(dump_n2,dump_n3),k=3)
                             while True:
                                 dump = next(f)
                                 if "bitrseed" in dump:
